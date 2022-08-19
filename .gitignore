@@ -1,0 +1,18 @@
+# Compiled code
+build/
+example/sample/build/
+*.o
+*.so
+*.a
+*.exe
+*.elf
+
+# Unusefull files
+*.gch
+*.pyc
+
+# Project files
+*.project
+*.cproject
+.vscode
+
