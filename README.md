@@ -13,12 +13,12 @@ ABR - Adjustable Bit Registers. This library allows simple mathematical operatio
 
 ### Use ready to use container with prepared software (optional):
 > dockerize-it launch  
-> dockerize-it shell
+> dockerize-it shell  
 > source ./env.sh
 
 ### Building library:
 > mkdir -p build & cd build  
-> cmake .. -GNinja
+> cmake .. -GNinja  
 > ninja
 
 Now, in 'build' directory you can find both libraries:
@@ -33,16 +33,16 @@ To build and run example project type:
 > cd examples/sample  
 > setup.sh  
 > mkdir -p build && cd build  
-> cmake .. -GNinja
+> cmake .. -GNinja  
 > ninja  
 
 ## How to adjust abr library to your project:
 The ABR library works on abr units, which are the basic type the calculations are porformed on.
-The abr_unit has ABR_UNIT_BITSIZE size (8, 16, 32, 64, 128 or 256). By default it is set to 32.
+The abrunit_t has ABR_UNIT_BITSIZE size (8, 16, 32, 64, 128 or 256). By default it is set to 32.
 To change it modify the ABR_UNIT_BITSIZE definition.
 
 The bigger size gives the shortest execution time.
 
 
-## If you have noticed something what can be improved please let me know.  
+## If you have noticed something what can be improved, please let me know.  
 :mailbox: dhmaciek@gmail.com

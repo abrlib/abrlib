@@ -9,17 +9,17 @@
 #include <string.h>
 #include <assert.h>
 
-#include "abr_priv.h"
+#include "abrlib_priv.h"
 
 // Public functions
 
 // Allocation operations
 
-abr_t abr_alloc(abr_unit bitsize)
+abr_t abr_alloc(abrunit_t bitsize)
 {
-    uint8_t *buffer = malloc(ABR_ALIGN_BITSIZE(bitsize) / BITS_IN_BYTE);
+    abrunit_t *buffer = malloc(ABR_MINIMAL_REQUIRED_UNITS(bitsize) * sizeof(abrunit_t));
     abr_t result = {
-        .chain =  (abr_unit*) buffer,
+        .chain = buffer,
         .bitsize = bitsize,
         .is_selfmanaged_chain = true,
     };
@@ -36,11 +36,10 @@ void abr_free(abr_t *abr)
 
 // Creation operations
 
-abr_t abr_create(uint8_t *buffer, abr_unit bitsize)
+abr_t abr_create(abrunit_t *buffer, abrunit_t bitsize)
 {
-    bitsize = ABR_ALIGN_BITSIZE(bitsize);
     abr_t result = {
-        .chain = (abr_unit*) buffer,
+        .chain = buffer,
         .bitsize = bitsize,
         .is_selfmanaged_chain = false,
     };

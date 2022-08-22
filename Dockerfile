@@ -5,6 +5,7 @@ RUN echo "Acquire::Check-Valid-Until \"false\";\nAcquire::Check-Date \"false\";"
 
 ARG DEBIAN_FRONTEND=noninteractive
 ENV TERM xterm-256color
+SHELL ["/bin/bash", "-c"] 
 
 # install requrire packages
 RUN apt-get update && apt-get install -y \
@@ -19,10 +20,10 @@ RUN apt-get update && apt-get install -y \
     vim 
 RUN pip3 install termcolor
 
-RUN useradd -ms /bin/bash abn-user
-RUN usermod -aG sudo abn-user
+RUN useradd -ms /bin/bash abr-user
+RUN usermod -aG sudo abr-user
 RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
-USER abn-user
-WORKDIR /var/local/abn
+USER abr-user
+WORKDIR /var/local/abr
 CMD bash
