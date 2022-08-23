@@ -2,6 +2,12 @@
 
 ABR - Adjustable Bit Registers. This library allows simple mathematical operations like addition, multiplication, bit operations on big natural numbers. It's not a standard implementation of big number - numbers are not expansible, which mins that you have to define size first (eg. 256, 4096 or 4294967296 bit). This size cannot be changed in runtime.
 
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/abrlib/abrlib/tree/master.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/abrlib/abrlib/tree/master)  
+[![C](https://img.shields.io/badge/C-00599C?style=for-the-badge&logo=c&logoColor=white)](https://www.cprogramming.com/)
+[![CMake](https://img.shields.io/badge/CMake-064F8C?style=for-the-badge&logo=cmake&logoColor=white)](https://cmake.org/) 
+[![Docker](https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white)](https://hub.docker.com/r/mksth/abrlib-image)
+
+
 ## How to use?
 
 ### Get abr library:
