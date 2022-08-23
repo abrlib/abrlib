@@ -17,7 +17,9 @@ RUN apt-get update && apt-get install -y \
     uncrustify \
     sudo \
     less \
-    vim 
+    vim \
+    git \
+    tree
 RUN pip3 install termcolor
 
 RUN useradd -ms /bin/bash abr-user
@@ -25,5 +27,5 @@ RUN usermod -aG sudo abr-user
 RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
 USER abr-user
-WORKDIR /var/local/abrlib
+WORKDIR /var/local/abr
 CMD bash
