@@ -57,16 +57,16 @@ typedef uint8_t abrunit_t;
 #ifndef ABR_PREPROCESSING_ERROR
 
 // aligned bitsize is a bitsize that is multiple of ABR_UNIT_BITSIZE
-#define ABR_IS_BITSIZE_ALIGNED(bitsize)             (((bitsize) % ABR_UNIT_BITSIZE == 0 ) ? true : false)
+#define ABR_IS_BITSIZE_ALIGNED(bitsize)             (((bitsize) % ABR_UNIT_BITSIZE == 0) ? true : false)
 
 // how many abrunit_t is requred to store the value
 #define ABR_MINIMAL_REQUIRED_UNITS(bitsize)         (ABR_IS_BITSIZE_ALIGNED(bitsize) ? (bitsize) : ((bitsize) / ABR_UNIT_BITSIZE) + 1)
 
 // Main type of ABR library
 typedef struct abr_t {
-    abrunit_t *      chain;                  // the buffer for register's value storage
-    abrunit_t        bitsize;                // size of the register in bits
-    bool             is_selfmanaged_chain;   // is the register own the buffer (is responsible for freeing the buffer) 
+    abrunit_t *chain;                        // the buffer for register's value storage
+    abrunit_t  bitsize;                      // size of the register in bits
+    bool       is_selfmanaged_chain;         // is the register own the buffer (is responsible for freeing the buffer)
 } abr_t;
 
 // ABR alloc set of functions creates register and allocates buffer for the register (owning the buffer)

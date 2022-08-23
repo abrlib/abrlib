@@ -25,5 +25,5 @@ RUN usermod -aG sudo abr-user
 RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
 USER abr-user
-WORKDIR /var/local/abr
+WORKDIR /var/local/abrlib
 CMD bash

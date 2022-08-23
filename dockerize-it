@@ -4,8 +4,8 @@
 
 script_name="dockerize-it"
 
-container_name="abr-container"
-image_name="abr-image"
+container_name="abrlib-container"
+image_name="abrlib-image"
 
 destination_path="/var/local/abr"
 
