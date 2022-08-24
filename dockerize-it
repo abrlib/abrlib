@@ -7,7 +7,7 @@ script_name="dockerize-it"
 container_name="abrlib-container"
 image_name="abrlib-image"
 
-destination_path="/var/local/abr"
+destination_path="/var/local/abrlib"
 
 usage() {
 	echo "Usage: $script_name (clean | launch | shell | destroy | status | help)"
