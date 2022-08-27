@@ -11,6 +11,7 @@ SHELL ["/bin/bash", "-c"]
 RUN apt-get update && apt-get install -y \
     python3 \
     python3-pip \
+    python2 \
     build-essential \
     cmake \
     ninja-build \
