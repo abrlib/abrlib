@@ -1,36 +1,79 @@
 #!/bin/bash
 
-# Simple wrapper for docker that use only one container and provide handy way to attach to started container
+#
+# Simple wrapper for docker that handle only one container and image
+#
 
+
+# script name
 script_name="dockerize-it"
 
+# container's amd image's name
+image_name="mksth/abrlib-image"
 container_name="abrlib-container"
-image_name="abrlib-image"
 
+# location where repository is located in container 
 destination_path="/var/local/abrlib"
 
-usage() {
-	echo "Usage: $script_name (clean | launch | shell | destroy | status | help)"
+
+get_container() {
+    local result=$(docker container ls -a | grep $container_name | awk '{print $1}')
+    [[ $(echo $result | wc -w) < 2 ]] || die "There are more than one container $container_name. Dockerize-it is in a invalid state. Consider running $script_name clean."
+    echo $result
 }
 
-help() {
-	echo "Simple wrapper for docker that use only one container and provide handy way to attach to started container."
-	echo ""	
-	echo "Usage: $script_name (clean | launch | shell | destroy | status | help)"
-	echo ""	
-	echo "clean   - remove existing docker container, and the image."
+is_container_running() {
+    local result=$(docker container ls -f "status=running" | grep $container_name | awk '{print $1}')
+    local amount=$(echo $result | wc -w)
+    [[ $amount < 2 ]] || die "There are more than one container $container_name. Dockerize-it is in a invalid state. Consider running $script_name clean."
+    echo $amount
+}
+
+is_image_exists() {
+    local result=$(docker image ls -a | grep $image_name | awk '{print $1}')
+    local amount=$(echo $result | wc -w)
+    [[ $amount < 2 ]] || die "There are more than one image $image_name. Dockerize-it is in a invalid state. Consider running $script_name clean."
+    echo $amount
+}
+
+# container / image state
+container=$(get_container)
+is_running=$(is_container_running)
+image_exists=$(is_image_exists)
+
+
+usage() {
+    echo "Usage: $script_name (pull | launch | shell | abbadon | clean | build | complex | status | help)"
+}
+
+help_handler() {
+	echo "Simple wrapper for docker that handle only one container and image."
+	echo ""
+	echo "$(usage)"
+	echo ""
+	echo "pull    - pull the image from repository"
 	echo "launch  - launch new container."
 	echo "shell   - open new interactive terminal in the launched container."
-	echo "destroy - destroy the container."
+	echo "abbadon - stop and remove container."
+	echo "clean   - stop and remove container and the image as well."
+	echo "build   - build localy an image based on the Docerfile."
+	echo "complex - pull & launch & shell at once"
 	echo "status  - show information about the container."
 	echo "help    - show this help information set."
 	echo ""
 	echo "Example flow:"
+    echo "    $script_name pull  #if there is no image present locally" 
 	echo "    $script_name launch"
 	echo "    $script_name shell"
 	echo "        # just do your work"
 	echo "        # Ctrl+D to escape"
-	echo "    $script_name destroy"
+	echo "    $script_name abbadon"
+	echo ""
+	echo "If you want to do almost all at once you can use:"
+	echo "    $script_name complex"
+    echo "        # just do your work"
+	echo "        # Ctrl+D to escape"
+	echo "   $script_name abbadon"
 	echo ""
 	echo "During your work you are using only one container."
 	echo "You can create as many shells as you want."
@@ -38,133 +81,152 @@ help() {
 	echo ""
 }
 
+
 die() {
-	echo >&2 "$script_name: $@"
-	exit 1
+    echo >&2 "$script_name: $@"
+    exit 1
 }
 
-# TODO: Here we are assuming that every container which is created from the images is managed by this script
-#		Instead of this let's check name of the container (container_name variable)
-get_all_containers() {
-	local result=$(docker container ls -a | grep $container_name | awk '{print $1}')
-	[[ $(echo $result | wc -w) < 2 ]] || die "There are more than one container $container_name. Docker is in a vague state. Consider running $script_name clean."
-	echo $result
+remove_container_handler() {
+    # container cleaning
+    if [[ $container ]]; then
+        if [[ $is_running = 1 ]]; then
+            docker stop $container --time 0 > /dev/null
+            [[ $? == 0 ]] || die "Docker container stop failed."
+        fi
+        docker rm $container -f > /dev/null
+        [[ $? == 0 ]] || die "Docker container remove failed."
+        echo "Conatiner '$container_name' removed."
+    fi
 }
 
-get_running_containers() {
-	local result=$(docker container ls -f "status=running" | grep $container_name | awk '{print $1}')
-	[[ $(echo $result | wc -w) < 2 ]] || die "There are more than one container $container_name. Docker is in a vague state. Consider running $script_name clean."
-	echo $result
+remove_image_handler() {
+    # image cleaning
+    if [[ $image_exists = 1 ]]; then
+        docker image rm $image_name > /dev/null
+        [[ $? == 0 ]] || die "Docker image remove failed."
+        echo "Image '$image_name' removed."
+    fi
 }
 
-get_images() {
-	local result=$(docker image ls -a | grep $image_name | awk '{print $1}')
-	[[ $(echo $result | wc -w) < 2 ]] || die "There are more than one image $image_name. Docker is in a vague state. Consider running $script_name clean."
-	echo $result
+build_image_handler() {
+    # check if image exists
+    [[ $image_exists = 0 ]] || "Docker image '$image_name' exists on your machine."
+
+    docker build -t $image_name .
+    [[ $? == 0 ]] || die  "Docker container build failed."
+}
+
+pull_image() {
+    docker pull $image_name
+    [[ $? == 0 ]] || die  "Docker pull '$image_name' failed."
+}
+
+pull_image_handler() {
+    # check if image exists
+    [[ $image_exists = 0 ]] || die "Docker image '$image_name' exists on your machine."
+    pull_image
+}
+
+launch_container() {
+    # create a container if needed
+    if [[ -z $container ]]; then
+        [[ $ABR_ROOT ]] || die "There is no ABR_ROOT environmet variable defined. Please run 'source ./env.sh'"
+        docker create -t -v $ABR_ROOT:$destination_path --name $container_name $image_name > /dev/null
+        [[ $? == 0 ]] || die "Docker container create failed."
+    fi
+
+    # start stopped or just created container
+    docker start $container_name > /dev/null
+    [[ $? == 0 ]] || die "Docker container start failed."
+}
+
+launch_containter_handler() {
+    # check if image exists
+    [[ $image_exists ==  1 ]] || die  "There is no '$image_name' image. Build or pull it first."
+
+    # check if container is currently running
+    [[ $is_running == 0 ]] || die "There is a working '$container_name' container. Destroy it first."
+
+    launch_container
+    echo "Container launched: '$container_name'"
+}
+
+attach_to_shell() {
+    docker exec -it $container /bin/bash
+    [[ $? == 0 ]] || die "Docker execution in the container failed."
+}
+
+shell_handler() {
+    # cannot to atach to not running container
+    [[ $is_running == 1 ]] || die "There is no running container here."
+
+    echo ""
+    echo "To escape press Ctrl+D."
+
+    # open bash in new interactive terminal
+    attach_to_shell
+}
+
+complex_handler() {
+    if [[ $image_exists = 0 ]]; then
+        pull_image
+    fi
+    if [[ $is_running = 0 ]]; then
+        launch_container
+    fi
+    attach_to_shell
+}
+
+print_status_handler() {
+    # image information
+    if [[ $image_exists ]]; then
+        echo "Available image: $image_name"
+        # container information
+        if [[ $is_running ]]; then
+            echo "Container $container_name is running."
+        else
+            if [[ -z $container ]]; then
+                echo "There is no container here."
+                echo "Consider running '$script_name launch'."
+            else
+                echo "Container $container is in a vague state."
+                echo "Consider running '$script_name clear'."
+            fi
+        fi
+    else
+        echo "There is no available images nor containers."
+    fi
 }
 
 main() {
-	# input validation and locals set
-	[[ "$#" == 1 ]] || ! usage || die "Choose subcommand."
-	local subcommand=$1
-	local all=$(get_all_containers)
-	local running=$(get_running_containers)
-	local images=$(get_images)
+    # command line arguments validation
+    [[ "$#" == 1 ]] || ! usage || die "Choose subcommand."
+    local subcommand=$1
 
-	case $subcommand in
-		clean)
-			# container cleaning
-			if [[ ! -z $all ]]; then
-				if [[ ! -z $running ]]; then
-					docker stop $running --time 0 > /dev/null
-					[[ $? == 0 ]] || die "Docker container stop failed."
-				fi
-				docker rm $all > /dev/null
-				[[ $? == 0 ]] || die "Docker container remove failed."
-				echo "Container cleaned."
-			fi
-			# image cleaning
-			if [[ ! -z $images ]]; then
-				docker image rm $images > /dev/null
-				[[ $? == 0 ]] || die "Docker image remove failed."
-				echo "Image cleaned."
-			fi
-			echo "Cleaning done."
-			;;
-
-		launch)
-			# TODO: select Dockerfile and its path (currently there is no way to run this script from eg. tools/ directory)
-			# check if container is currently running
-			[[ -z $running ]] || die "There is a working container $running. Destroy it first."
-			# build a docker image if needed
-			if [[ -z $images ]]; then
-				docker build -t $image_name .
-				[[ $? == 0 ]] || die  "Docker container build failed."
-			fi
-			# create a container if needed
-			if [[ -z $all ]]; then
-				docker create -t -v $ABR_ROOT:$destination_path --name $container_name $image_name > /dev/null
-				[[ $? == 0 ]] || die "Docker container create failed."
-			fi
-			# start stopped or just created container
-			docker start $(get_all_containers) > /dev/null
-			[[ $? == 0 ]] || die "Docker container start failed."
-			echo "Container launched: $(get_running_containers)" 
-			;;
-
-		shell)
-			# cannot to atach to not running container
-			[[ ! -z $running ]] || die "There is no running container here."
-			echo ""
-			echo "To escape press Ctrl+D."
-			# open bash in new interactive terminal
-			docker exec -it $running /bin/bash
-			[[ $? == 0 ]] || die "Docker execution in the container failed."
-			;;
-
-		destroy)
-			[[ ! -z $running ]] || die "There is no working container here."
-			# container cleaning
-			if [[ ! -z $all ]]; then
-				if [[ ! -z $running ]]; then
-					docker stop $running --time 0 > /dev/null
-					[[ $? == 0 ]] || die "Docker container stop failed."
-				fi
-				docker container rm $all
-				[[ $? == 0 ]] || die "Docker container remove failed."
-				echo "Container destroyed."
-			fi
-			;;
-
-		status)
-			# image information
-			if [[ ! -z $images ]]; then
-				echo "Available image: $images."
-				# container information
-				if [[ ! -z $running ]]; then
-					echo "Container $running is running."
-				else
-					if [[ -z $all ]]; then
-						echo "There is no container here."
-						echo "Consider running '$script_name launch'."
-					else
-						echo "Container $all is in a vague state."
-						echo "Consider running $script_name clear."
-					fi
-				fi
-			else
-				echo "There is no available images nor containers."
-			fi
-			;;
-
-		help)
-			help
-			;;
-	
-		*)
-			usage
-			die "Wrong argument. Check subcommand list."
-	esac
+    case $subcommand in
+        clean)
+            remove_container_handler && remove_image_handler;;
+        build)
+            build_image_handler;;
+        pull)
+            pull_image_handler;;
+        launch)
+            launch_containter_handler;;
+        shell)
+            shell_handler;;
+        abbadon)
+            remove_container_handler;;
+        complex)
+            complex_handler;;
+        status)
+            print_status_handler;;
+        help)
+            help_handler;;
+        *)
+            usage
+            die "Wrong argument. Check subcommand list."
+    esac
 }
 
 # main function call
