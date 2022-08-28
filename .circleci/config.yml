@@ -3,22 +3,90 @@
 version: 2.1
 
 jobs:
-  run_all_tests:
+
+  environment_check:
     docker:
       - image: abruslib/abruslib-image:latest
     steps:
       - checkout
       - run:
-          name: "Run CI"
+          name: "Environment check"
           command: |
             source ./env.sh
-            ./CI/x64/run_tests.py
-      - store_artifacts:
-          path: build/libabruslib.a
-      - store_artifacts:
-          path: build/libabruslib-shared.so
+            python3 ./CI_scripts/environment_check.py
+
+  library_check:
+    # requires:
+    #   - environment_check
+    docker:
+      - image: abruslib/abruslib-image:latest
+    steps:
+      - checkout
+      - run:
+          name: "Library build"
+          command: |
+            source ./env.sh
+            python3 ./CI_scripts/library_build.py
+
+  example_check:
+    # requires:
+    #   - environment_check
+    docker:
+      - image: abruslib/abruslib-image:latest
+    steps:
+      - checkout
+      - run:
+          name: "Example build"
+          command: |
+            source ./env.sh
+            python3 ./CI_scripts/example_run.py
+
+  unittests_check:
+    # requires:
+    #   - environment_check
+    docker:
+      - image: abruslib/abruslib-image:latest
+    steps:
+      - checkout
+      - run:
+          name: "Unittests run"
+          command: |
+            source ./env.sh
+            python3 ./CI_scripts/unittests_run.py
+
+  wrappers_check:
+    # requires:
+    #   - environment_check
+    #   - library_check
+    docker:
+      - image: abruslib/abruslib-image:latest
+    steps:
+      - checkout
+      - run:
+          name: "Wrappers check"
+          command: |
+            source ./env.sh
+            python3 ./CI_scripts/wrappers_check.py
+
+  uncrustify_check:
+    # requires:
+    #   - environment_check
+    docker:
+      - image: abruslib/abruslib-image:latest
+    steps:
+      - checkout
+      - run:
+          name: "Uncrustify check"
+          command: |
+            source ./env.sh
+            python3 ./CI_scripts/uncrustify_check.py
 
 workflows:
   CI:
     jobs:
-      - run_all_tests
+      - environment_check
+      - library_check
+      - example_check
+      - unittests_check
+      - wrappers_check
+      - uncrustify_check

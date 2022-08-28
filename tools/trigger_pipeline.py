@@ -16,7 +16,7 @@ def trigger_pipeline(revision="master"):
 
     token = os.getenv("CIRCLECI_TOKEN")
     if token == None:
-        raise TriggerPipelineException("There is no token (CIRCLECI_TOKEN) among environemt variables")
+        raise TriggerPipelineException("There is no token (CIRCLECI_TOKEN) among environment variables")
 
     conn = http.client.HTTPSConnection("circleci.com")
     payload = "{\"branch\" : \"" + revision + "\"}"
