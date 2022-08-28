@@ -1,4 +1,4 @@
-# Python3 abruslib wrapper
+# Python2 abruslib wrapper
 You can use this wrapper to call functions from abruslib shared library.
 If you don't know how use it, please read this notes or take a look at the example.
 

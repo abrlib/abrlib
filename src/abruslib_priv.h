@@ -5,9 +5,9 @@
 // Full license text is available in 'LICENSE'.
 //
 
-#ifndef ABR_PRIV_H
-#define ABR_PRIV_H
+#ifndef ABRUSLIB_PRIV_H
+#define ABRUSLIB_PRIV_H
 
 #include "abruslib.h"
 
-#endif  /* ABR_PRIV_H */
+#endif  /* ABRUSLIB_PRIV_H */
