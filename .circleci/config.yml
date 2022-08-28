@@ -5,7 +5,7 @@ version: 2.1
 jobs:
   run_all_tests:
     docker:
-      - image: mksth/abruslib-dev:latest
+      - image: abruslib/abruslib-image:latest
     steps:
       - checkout
       - run:

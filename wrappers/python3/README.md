@@ -1,18 +1,18 @@
-# Python3 abrlib wrapper
-You can use this wrapper to call functions from abrlib shared library.
+# Python3 abruslib wrapper
+You can use this wrapper to call functions from abruslib shared library.
 If you don't know how use it, please read this notes or take a look at the example.
 
-## How to use abrlib.py
-1) Build shared library (libabrlib-shared.so) and know it's location
-2) Copy abrlib.py to your codebase (or install abr)
-3) Import abrlib in your source file:
-> git from abrlib import Abrlib  
+## How to use abruslib.py
+1) Build shared library (libabruslib-shared.so) and know it's location
+2) Copy abruslib.py to your codebase (or install abr)
+3) Import abruslib in your source file:
+> git from abruslib import abruslib  
   
-4) Create Abrlib object passing the path to the abrlib shared object file:
-> abrlib = Abrlib('abrlib/build/libabrlib-shared.so')  
+4) Create abruslib object passing the path to the abruslib shared object file:
+> abruslib = Abruslib('abruslib/build/libabruslib-shared.so')  
 
 5) Use abr object to perform whatever you want
-> key = abrlib.create(4096)  
+> key = abruslib.create(4096)  
 > ...
 
 ## In case of any problem please let me know:

@@ -6,10 +6,10 @@ It's a custom implementation of big number idea:
 Once created register cannot be automatically extended, so please create as wide register as you need at first.
 This will reward you with faster operations.
 
-[![CircleCI](https://dl.circleci.com/status-badge/img/gh/abrlib/abrlib/tree/master.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/abrlib/abrlib/tree/master)  
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/abruslib/abruslib/tree/master.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/abruslib/abruslib/tree/master)  
 [![C](https://img.shields.io/badge/C-00599C?style=for-the-badge&logo=c&logoColor=white)](https://www.cprogramming.com/)
 [![CMake](https://img.shields.io/badge/CMake-064F8C?style=for-the-badge&logo=cmake&logoColor=white)](https://cmake.org/) 
-[![Docker](https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white)](https://hub.docker.com/r/mksth/abrlib-image)
+[![Docker](https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white)](https://hub.docker.com/r/abruslib/abruslib-image)
 
 
 ## How to use?
