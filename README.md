@@ -1,6 +1,10 @@
-# ABR
+# Abruslib
 
-ABR - Adjustable Bit Registers. This library allows simple mathematical operations like addition, multiplication, bit operations on big natural numbers. It's not a standard implementation of big number - numbers are not expansible, which mins that you have to define size first (eg. 256, 4096 or 4294967296 bit). This size cannot be changed in runtime.
+Abrus - Adjustable Bit Registers Upon the System.  
+This library allows essential operations on big natural numbers.  
+It's a custom implementation of big number idea:
+Once created register cannot be automatically extended, so please create as wide register as you need at first.
+This will reward you with faster operations.
 
 [![CircleCI](https://dl.circleci.com/status-badge/img/gh/abrlib/abrlib/tree/master.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/abrlib/abrlib/tree/master)  
 [![C](https://img.shields.io/badge/C-00599C?style=for-the-badge&logo=c&logoColor=white)](https://www.cprogramming.com/)
@@ -11,16 +15,14 @@ ABR - Adjustable Bit Registers. This library allows simple mathematical operatio
 ## How to use?
 
 ### Get abr library:
-> git clone https://github.com/mgorzkowski/abr.git  
-> cd ./abr   
+> git clone https://github.com/abruslib/abruslib.git  
+> cd ./abruslib  
 
 ### Prepare environment variables:
-> source ./env.sh
+> source ./env.sh  
 
 ### Use ready to use container with prepared software (optional):
-> dockerize-it launch  
-> dockerize-it shell  
-> source ./env.sh
+> dockerize-it complex
 
 ### Building library:
 > mkdir -p build & cd build  
@@ -28,27 +30,27 @@ ABR - Adjustable Bit Registers. This library allows simple mathematical operatio
 > ninja
 
 Now, in 'build' directory you can find both libraries:
-- libabr-static.a
-- libabr-shared.so
+- libabruslib.a
+- libabruslib-shared.so
 
 You can use different dictionary but please use 'build' directory because this name is required by test runner.
 
 ## Example project:
-In the 'example' directory there is a 'sample' example of ABR usage. This is a series of some operations.  
+In the 'example' directory there is a 'sample' example of abruslib usage.
 To build and run example project type:
-> cd examples/sample  
+> cd example  
 > setup.sh  
 > mkdir -p build && cd build  
 > cmake .. -GNinja  
 > ninja  
 
 ## How to adjust abr library to your project:
-The ABR library works on abr units, which are the basic type the calculations are porformed on.
-The abrunit_t has ABR_UNIT_BITSIZE size (8, 16, 32, 64, 128 or 256). By default it is set to 32.
-To change it modify the ABR_UNIT_BITSIZE definition.
+The abruslib library works on abr units, which are the basic type the calculations are performed on.
+The abrusunit_t has ABRUS_UNIT_BITSIZE size (8, 16, 32, 64, 128 or 256). By default it is set to 32.
+To change it modify the ABRUS_UNIT_BITSIZE definition.
 
 The bigger size gives the shortest execution time.
 
 
 ## If you have noticed something what can be improved, please let me know.  
-:mailbox: dhmaciek@gmail.com
+:mailbox: abruslib@gmail.com

@@ -19,7 +19,7 @@ def main():
     print("=====================================================================\n\n")
     print("Check if environment is setup")
     print("-----------------------------")
-    if os.getenv('ABR_ROOT') == None:
+    if os.getenv('ABRUSLIB_ROOT') == None:
         print("Environment is not setup. Run source ./env.sh in abrlib directory")
         return 1
 

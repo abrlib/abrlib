@@ -5,7 +5,7 @@ version: 2.1
 jobs:
   run_all_tests:
     docker:
-      - image: mksth/abrlib-image:latest
+      - image: mksth/abruslib-dev:latest
     steps:
       - checkout
       - run:
@@ -14,9 +14,9 @@ jobs:
             source ./env.sh
             ./CI/x64/run_tests.py
       - store_artifacts:
-          path: build/libabrlib.a
+          path: build/libabruslib.a
       - store_artifacts:
-          path: build/libabrlib-shared.so
+          path: build/libabruslib-shared.so
 
 workflows:
   CI:

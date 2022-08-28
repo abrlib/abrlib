@@ -1,4 +1,4 @@
 #!/bin/bash
 
-export ABR_ROOT=$(pwd)
-export PATH=$PATH:$ABR_ROOT
+export ABRUSLIB_ROOT=$(pwd)
+export PATH=$PATH:$ABRUSLIB_ROOT

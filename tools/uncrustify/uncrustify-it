@@ -33,16 +33,16 @@ main() {
     # input validation and locals set
     [[ "$#" == 1 ]] || ! usage || die "Choose subcommand."
     local subcommand=$1
-    local files=("$(get_source_files $ABR_ROOT)")
+    local files=("$(get_source_files $ABRUSLIB_ROOT)")
 
     case $subcommand in
         format)
-            uncrustify -c $ABR_ROOT/tools/uncrustify/uncrustify.cfg --no-backup $files
+            uncrustify -c $ABRUSLIB_ROOT/tools/uncrustify/uncrustify.cfg --no-backup $files
             [[ $? == 0 ]] || die "Something went wrong."
             ;;
 
         check)
-            uncrustify -c $ABR_ROOT/tools/uncrustify/uncrustify.cfg --check $files
+            uncrustify -c $ABRUSLIB_ROOT/tools/uncrustify/uncrustify.cfg --check $files
             [[ $? == 0 ]] || die "Files doesn't meet requrements."
             ;;
 

@@ -9,11 +9,11 @@
 script_name="dockerize-it"
 
 # container's amd image's name
-image_name="mksth/abrlib-image"
-container_name="abrlib-container"
+image_name="abruslib/abruslib-image"
+container_name="abruslib-container"
 
 # location where repository is located in container 
-destination_path="/var/local/abrlib"
+destination_path="/var/local/abruslib"
 
 
 get_container() {
@@ -131,8 +131,8 @@ pull_image_handler() {
 launch_container() {
     # create a container if needed
     if [[ -z $container ]]; then
-        [[ $ABR_ROOT ]] || die "There is no ABR_ROOT environmet variable defined. Please run 'source ./env.sh'"
-        docker create -t -v $ABR_ROOT:$destination_path --name $container_name $image_name > /dev/null
+        [[ $ABRUSLIB_ROOT ]] || die "There is no ABRUSLIB_ROOT environmet variable defined. Please run 'source ./env.sh'"
+        docker create -t -v $ABRUSLIB_ROOT:$destination_path --name $container_name $image_name > /dev/null
         [[ $? == 0 ]] || die "Docker container create failed."
     fi
 
