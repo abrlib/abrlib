@@ -16,8 +16,6 @@ jobs:
             python3 ./CI_scripts/environment_check.py
 
   library_check:
-    # requires:
-    #   - environment_check
     docker:
       - image: abruslib/abruslib-image:latest
     steps:
@@ -27,10 +25,10 @@ jobs:
           command: |
             source ./env.sh
             python3 ./CI_scripts/library_build.py
+      - store_artifacts:
+          path: build/libabruslib.a
 
   example_check:
-    # requires:
-    #   - environment_check
     docker:
       - image: abruslib/abruslib-image:latest
     steps:
@@ -42,8 +40,6 @@ jobs:
             python3 ./CI_scripts/example_run.py
 
   unittests_check:
-    # requires:
-    #   - environment_check
     docker:
       - image: abruslib/abruslib-image:latest
     steps:
@@ -55,9 +51,6 @@ jobs:
             python3 ./CI_scripts/unittests_run.py
 
   wrappers_check:
-    # requires:
-    #   - environment_check
-    #   - library_check
     docker:
       - image: abruslib/abruslib-image:latest
     steps:
@@ -69,8 +62,6 @@ jobs:
             python3 ./CI_scripts/wrappers_check.py
 
   uncrustify_check:
-    # requires:
-    #   - environment_check
     docker:
       - image: abruslib/abruslib-image:latest
     steps:
