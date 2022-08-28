@@ -2,7 +2,7 @@
 #include "abruslib.h"
 
 int main() {
-    abr_t reg = abr_alloc(32);
-    abr_free(&reg);
+    abrus_t reg = abrus_alloc(32);
+    abrus_free(&reg);
     return 0;
 }

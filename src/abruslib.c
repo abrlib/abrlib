@@ -15,10 +15,10 @@
 
 // Allocation operations
 
-abr_t abr_alloc(abrunit_t bitsize)
+abrus_t abrus_alloc(abrusunit_t bitsize)
 {
-    abrunit_t *buffer = malloc(ABR_MINIMAL_REQUIRED_UNITS(bitsize) * sizeof(abrunit_t));
-    abr_t result = {
+    abrusunit_t *buffer = malloc(ABRUS_MINIMAL_REQUIRED_UNITS(bitsize) * sizeof(abrusunit_t));
+    abrus_t result = {
         .chain                = buffer,
         .bitsize              = bitsize,
         .is_selfmanaged_chain = true,
@@ -27,19 +27,19 @@ abr_t abr_alloc(abrunit_t bitsize)
     return result;
 }
 
-void abr_free(abr_t *abr)
+void abrus_free(abrus_t *abrus)
 {
-    if (abr->is_selfmanaged_chain == true) {
-        free(abr->chain);
+    if (abrus->is_selfmanaged_chain == true) {
+        free(abrus->chain);
     }
-    *abr = abr_create_empty();
+    *abrus = abrus_create_empty();
 }
 
 // Creation operations
 
-abr_t abr_create(abrunit_t *buffer, abrunit_t bitsize)
+abrus_t abrus_create(abrusunit_t *buffer, abrusunit_t bitsize)
 {
-    abr_t result = {
+    abrus_t result = {
         .chain                = buffer,
         .bitsize              = bitsize,
         .is_selfmanaged_chain = false,
@@ -48,9 +48,9 @@ abr_t abr_create(abrunit_t *buffer, abrunit_t bitsize)
     return result;
 }
 
-abr_t abr_create_empty(void)
+abrus_t abrus_create_empty(void)
 {
-    abr_t result = {
+    abrus_t result = {
         .chain                = NULL,
         .bitsize              = 0,
         .is_selfmanaged_chain = false,

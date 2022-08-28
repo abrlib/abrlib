@@ -1,7 +1,7 @@
 #!/usr/bin/env python2
 
-from abruslib import Abrlib
+from abruslib import Abruslib
 
 if __name__ == '__main__':
-    abr = Abrlib('../../build/libabruslib-shared.so')
-    print abr
+    abruslib = Abruslib('../../build/libabruslib-shared.so')
+    print abruslib
