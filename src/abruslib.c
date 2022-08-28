@@ -17,7 +17,7 @@
 
 abrus_t abrus_alloc(abrusunit_t bitsize)
 {
-    abrusunit_t *buffer = malloc(ABRUS_MINIMAL_REQUIRED_UNITS(bitsize) * sizeof(abrusunit_t));
+    abrusunit_t *buffer = (abrusunit_t *)abrus_bufferalloc(ABRUS_MINIMAL_REQUIRED_UNITS(bitsize), sizeof(abrusunit_t));
     abrus_t result = {
         .chain                = buffer,
         .bitsize              = bitsize,
@@ -30,7 +30,7 @@ abrus_t abrus_alloc(abrusunit_t bitsize)
 void abrus_free(abrus_t *abrus)
 {
     if (abrus->is_selfmanaged_chain == true) {
-        free(abrus->chain);
+        abrus_bufferfree(abrus->chain);
     }
     *abrus = abrus_create_empty();
 }

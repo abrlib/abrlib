@@ -72,6 +72,18 @@ jobs:
             source ./env.sh
             python3 ./CI_scripts/uncrustify_check.py
 
+  cppcheck_check:
+    docker:
+      - image: abruslib/abruslib-image:latest
+    steps:
+      - checkout
+      - run:
+          name: "Cppcheck check"
+          command: |
+            source ./env.sh
+            python3 ./CI_scripts/cppcheck_check.py
+            echo "This job can fail"
+
 workflows:
   CI:
     jobs:
@@ -81,3 +93,4 @@ workflows:
       - unittests_check
       - wrappers_check
       - uncrustify_check
+      - cppcheck_check

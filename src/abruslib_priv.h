@@ -10,4 +10,6 @@
 
 #include "abruslib.h"
 
+#include "port/memory_mgmt.h"
+
 #endif  /* ABRUSLIB_PRIV_H */

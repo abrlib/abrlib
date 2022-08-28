@@ -1,0 +1,43 @@
+#!/bin/bash
+
+script_name="cppcheck-it"
+cppcheck_path="cppcheck"
+
+usage() {
+    echo "Usage: $script_name"
+}
+
+help() {
+    echo "Simple wrapper for cppcheck that provide most useful function on the whole project."
+    echo ""
+    echo "$(usage)"
+}
+
+die() {
+    echo >&2 "$script_name: $@"
+    exit 1
+}
+
+# get c/cpp source files from given directory
+get_source_files() {
+    local result=$(find $1 -regextype posix-extended -iregex "$1/(src)/.*(\.c|\.cpp|\.cc)")
+    [[ $(echo $result | wc -w) > 0 ]] || die "Cannot to find any file to check."
+    echo $result
+}
+
+filter() {
+    local blacklist="$ABRUSLIB_ROOT/src/port/"
+    echo $(echo $1 | grep -v $blacklist) 
+}
+
+main() {
+    # input validation and locals set
+    [[ "$#" == 0 ]] || ! usage || die "No subcommand is supported"
+    local all=("$(get_source_files $ABRUSLIB_ROOT)")
+    local files=($(filter $all))
+    $cppcheck_path --error-exitcode=1 --addon=cert --addon=misra.py -I$ABRUSLIB_ROOT/include $files
+}
+
+
+# main function call
+main $@

@@ -7,7 +7,7 @@ usage() {
 }
 
 help() {
-    echo "Simple wrapper for uncrustify that provide most useful function on the whole project"
+    echo "Simple wrapper for uncrustify that provide most useful functions."
     echo ""
     echo "Usage: $script_name (format | check | help)"
     echo ""

@@ -17,35 +17,35 @@ extern "C" {
 
 #ifndef ABRUS_UNIT_BITSIZE
 // modify it to 8, 16, 32, 64, 128... if you need
-#define ABRUS_UNIT_BITSIZE 32
+#define ABRUS_UNIT_BITSIZE 32u
 #endif
 
 // The abrusunit_t is the most basic type of integer the library works on.
 // It should be defined as possible the widest integer type your compiller support.
 // The abrushalfunit_t must be two times shorter.
 // eg. abrusunit_t -> uint32_t, abrushalfunit_t -> uint16_t
-#if ABRUS_UNIT_BITSIZE == 128
-#define ABRUS_UNIT_SIZE 16
+#if ABRUS_UNIT_BITSIZE == 128u
+#define ABRUS_UNIT_SIZE 16u
 typedef uint8_t abrusbyte_t;
 typedef uint64_t abrushalfunit_t;
 typedef uint128_t abrusunit_t;
-#elif ABRUS_UNIT_BITSIZE == 64
-#define ABRUS_UNIT_SIZE 8
+#elif ABRUS_UNIT_BITSIZE == 64u
+#define ABRUS_UNIT_SIZE 8u
 typedef uint8_t abrusbyte_t;
 typedef uint32_t abrushalfunit_t;
 typedef uint64_t abrusunit_t;
-#elif ABRUS_UNIT_BITSIZE == 32
-#define ABRUS_UNIT_SIZE 4
+#elif ABRUS_UNIT_BITSIZE == 32u
+#define ABRUS_UNIT_SIZE 4u
 typedef uint8_t abrusbyte_t;
 typedef uint16_t abrushalfunit_t;
-typedef uint32_t abrusunit_t;
-#elif ABRUS_UNIT_BITSIZE == 16
-#define ABRUS_UNIT_SIZE 2
+typedef unsigned int abrusunit_t;
+#elif ABRUS_UNIT_BITSIZE == 16u
+#define ABRUS_UNIT_SIZE 2u
 typedef uint8_t abrusbyte_t;
 typedef uint8_t abrushalfunit_t;
 typedef uint16_t abrusunit_t;
-#elif ABRUS_UNIT_BITSIZE == 8
-#define ABRUS_UNIT_SIZE 1
+#elif ABRUS_UNIT_BITSIZE == 8u
+#define ABRUS_UNIT_SIZE 1u
 typedef uint8_t abrusbyte_t;
 typedef uint8_t abrushalfunit_t;
 typedef uint8_t abrusunit_t;
