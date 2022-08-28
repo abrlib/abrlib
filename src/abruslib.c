@@ -9,7 +9,7 @@
 #include <string.h>
 #include <assert.h>
 
-#include "abrlib_priv.h"
+#include "abruslib_priv.h"
 
 // Public functions
 

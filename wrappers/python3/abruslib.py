@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 from ctypes import *
 
 # _abn_unit must be the same type like abn_unit in abn/include/abn.h file one

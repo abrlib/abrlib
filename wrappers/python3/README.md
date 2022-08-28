@@ -4,7 +4,7 @@ If you don't know how use it, please read this notes or take a look at the examp
 
 ## How to use abruslib.py
 1) Build shared library (libabruslib-shared.so) and know it's location
-2) Copy abruslib.py to your codebase (or install abr)
+2) Copy abruslib.py to your codebase (or install abruslib)
 3) Import abruslib in your source file:
 > git from abruslib import abruslib  
   

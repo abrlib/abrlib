@@ -14,7 +14,7 @@ This will reward you with faster operations.
 
 ## How to use?
 
-### Get abr library:
+### Get abruslib library:
 > git clone https://github.com/abruslib/abruslib.git  
 > cd ./abruslib  
 
@@ -44,8 +44,8 @@ To build and run example project type:
 > cmake .. -GNinja  
 > ninja  
 
-## How to adjust abr library to your project:
-The abruslib library works on abr units, which are the basic type the calculations are performed on.
+## How to adjust abruslib library to your project:
+The abruslib library works on units (abrusunit_t), which are the basic type the calculations are performed on.
 The abrusunit_t has ABRUS_UNIT_BITSIZE size (8, 16, 32, 64, 128 or 256). By default it is set to 32.
 To change it modify the ABRUS_UNIT_BITSIZE definition.
 

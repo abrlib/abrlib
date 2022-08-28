@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
-from abrlib import Abrlib
+from abruslib import Abrlib
 
 if __name__ == '__main__':
-    abr = Abrlib('../../build/libabrlib-shared.so')
+    abr = Abrlib('../../build/libabruslib-shared.so')
     print(abr)

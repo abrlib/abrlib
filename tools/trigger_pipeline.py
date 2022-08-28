@@ -24,7 +24,7 @@ def trigger_pipeline(revision="master"):
         "content-type": "application/json",
         "Circle-Token" : token
     }
-    conn.request("POST", "/api/v2/project/gh/abrlib/abrlib/pipeline", payload, headers)
+    conn.request("POST", "/api/v2/project/gh/abruslib/abruslib/pipeline", payload, headers)
     return conn.getresponse().read().decode("utf-8")
 
 def main(argv):
@@ -38,8 +38,8 @@ def main(argv):
         return 0
 
     print("Trigger pipeline")
+    raw_res = trigger_pipeline(argv[1])
     try:
-        raw_res = trigger_pipeline(argv[1])
         res = json.loads(raw_res)
         number = res.get('number')
         if number == None:
@@ -50,7 +50,7 @@ def main(argv):
     
     print("number \t: #{}".format(number))
     print("id \t: {}".format(res.get('id')))
-    print("url \t: https://app.circleci.com/pipelines/github/abrlib/abrlib/{}".format(number))
+    print("url \t: https://app.circleci.com/pipelines/github/abruslib/abruslib/{}".format(number))
 
     return 0
 

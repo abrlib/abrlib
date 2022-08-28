@@ -20,16 +20,16 @@ def main():
     print("Check if environment is setup")
     print("-----------------------------")
     if os.getenv('ABRUSLIB_ROOT') == None:
-        print("Environment is not setup. Run source ./env.sh in abrlib directory")
+        print("Environment is not setup. Run source ./env.sh in abruslib directory")
         return 1
 
     print("=====================================================================\n\n")
-    print("Build abrlib")
+    print("Build abruslib")
     print("------------")
     run_cmd("rm -rf build ; mkdir build")
     ret = run_cmd("cd build && cmake .. && make")
     if ret != 0:
-        print("Building abrlib failed")
+        print("Building abruslib failed")
         return ret
 
     print("=====================================================================\n\n")
@@ -37,7 +37,7 @@ def main():
     print("-------------")
     ret = run_cmd("cd example && chmod +x ./setup.sh && ./setup.sh")
     if ret != 0:
-        print("Setuping abrlib example failed")
+        print("Setuping abruslib example failed")
         return ret
 
     print("=====================================================================\n\n")
@@ -46,7 +46,7 @@ def main():
     run_cmd("cd example && rm -rf build ; mkdir build")
     ret = run_cmd("cd example/build && cmake .. && make")
     if ret != 0:
-        print("Building abrlib example failed")
+        print("Building abruslib example failed")
         return ret
 
     print("=====================================================================\n\n")

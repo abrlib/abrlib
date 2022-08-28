@@ -8,6 +8,6 @@
 #ifndef ABR_PRIV_H
 #define ABR_PRIV_H
 
-#include "abrlib.h"
+#include "abruslib.h"
 
 #endif  /* ABR_PRIV_H */
